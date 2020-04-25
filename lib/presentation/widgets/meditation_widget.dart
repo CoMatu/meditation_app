@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meditation_app/presentation/widgets/headline_widget.dart';
+import 'package:meditation_app/presentation/widgets/meditation_card.dart';
 
 class MeditationWidget extends StatelessWidget {
   const MeditationWidget({Key key}) : super(key: key);
@@ -9,50 +11,53 @@ class MeditationWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(
-            'Headline',
-            style: TextStyle(fontSize: 18),
-          ),
+          HeadLineWidget(),
           SizedBox(
             height: 200.0,
             child: ListView.builder(
               physics: ClampingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: 15,
-              itemBuilder: (BuildContext context, int index) => Card(
-                child: Center(child: Text('Dummy Card Text')),
-              ),
+              itemCount: 5,
+              itemBuilder: (BuildContext context, int index) =>
+                  MeditationCard(),
             ),
           ),
-          Text(
-            'Demo Headline 2',
-            style: TextStyle(fontSize: 18),
+          HeadLineWidget(),
+          SizedBox(
+            height: 200.0,
+            child: ListView.builder(
+              physics: ClampingScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: 5,
+              itemBuilder: (BuildContext context, int index) =>
+                  MeditationCard(),
+            ),
           ),
-          Card(
-            child: ListTile(
-                title: Text('Motivation $int'),
-                subtitle: Text('this is a description of the motivation')),
+          HeadLineWidget(),
+          SizedBox(
+            height: 200.0,
+            child: ListView.builder(
+              physics: ClampingScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: 5,
+              itemBuilder: (BuildContext context, int index) =>
+                  MeditationCard(),
+            ),
           ),
-          Card(
-            child: ListTile(
-                title: Text('Motivation $int'),
-                subtitle: Text('this is a description of the motivation')),
-          ),
-          Card(
-            child: ListTile(
-                title: Text('Motivation $int'),
-                subtitle: Text('this is a description of the motivation')),
-          ),
-          Card(
-            child: ListTile(
-                title: Text('Motivation $int'),
-                subtitle: Text('this is a description of the motivation')),
-          ),
-          Card(
-            child: ListTile(
-                title: Text('Motivation $int'),
-                subtitle: Text('this is a description of the motivation')),
+          HeadLineWidget(),
+          SizedBox(
+            height: 200.0,
+            child: ListView.builder(
+              physics: ClampingScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: 5,
+              itemBuilder: (BuildContext context, int index) =>
+                  MeditationCard(),
+            ),
           ),
         ],
       ),
