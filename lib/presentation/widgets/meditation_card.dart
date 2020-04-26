@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meditation_app/presentation/pages/pages.dart';
 
 class MeditationCard extends StatelessWidget {
   const MeditationCard({Key key}) : super(key: key);
@@ -84,9 +85,18 @@ class MeditationCard extends StatelessWidget {
                           height: 30.0,
                           minWidth: 74.0,
                           child: RaisedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PlayerPage()),
+                              );
+                            },
                             color: Colors.cyan[400],
-                            child: Text('BEGIN', style: TextStyle(color: Colors.white),),
+                            child: Text(
+                              'BEGIN',
+                              style: TextStyle(color: Colors.white),
+                            ),
                             shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(7.0),
                             ),
