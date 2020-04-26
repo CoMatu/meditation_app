@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class CircleProgress extends CustomPainter {
@@ -12,7 +11,7 @@ class CircleProgress extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint outerCircle = Paint()
       ..strokeWidth = 2
-      ..color = Colors.white
+      ..color = Colors.white24
       ..style = PaintingStyle.stroke
     ..strokeCap = StrokeCap.round;
 

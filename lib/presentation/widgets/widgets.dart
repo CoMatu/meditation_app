@@ -4,3 +4,7 @@ export 'courses_widget.dart';
 export 'sounds_widget.dart';
 export 'headline_widget.dart';
 export 'circle_progress.dart';
+export 'paused_button.dart';
+export 'resume_button.dart';
+export 'player_display_widget.dart';
+export 'settings_panel_widget.dart';

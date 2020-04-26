@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:meditation_app/presentation/providers/bottom_panel_provider.dart';
+import 'package:meditation_app/presentation/providers/center_panel_provider.dart';
 import 'package:meditation_app/presentation/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class PlayerPage extends StatefulWidget {
   const PlayerPage({Key key}) : super(key: key);
@@ -15,13 +18,16 @@ class _PlayerPageState extends State<PlayerPage> with TickerProviderStateMixin {
   AnimationController progressInnerController;
   Animation animation;
   Animation animationInner;
-
   bool _visible;
+  bool _pausedPanelVisible;
+  bool _soundOn;
 
   @override
   void initState() {
     super.initState();
     _visible = false;
+    _pausedPanelVisible = true;
+    _soundOn = true;
     progressController = AnimationController(
         vsync: this, duration: Duration(milliseconds: 1000));
     progressInnerController = AnimationController(
@@ -91,108 +97,70 @@ class _PlayerPageState extends State<PlayerPage> with TickerProviderStateMixin {
                           ),
                           Row(children: <Widget>[
                             GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                width: 45.0,
-                                child: Image.asset('res/images/sound-thin.png'),
-                              ),
+                              onTap: () {
+                                setState(() {
+                                  _soundOn = !_soundOn;
+                                });
+                              },
+                              child: _soundOn
+                                  ? Container(
+                                      width: 45.0,
+                                      child: Image.asset(
+                                          'res/images/sound-thin.png'),
+                                    )
+                                  : Container(
+                                      width: 42.0,
+                                      child: Image.asset(
+                                          'res/images/sound_off.png'),
+                                    ),
                             ),
-                            GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                width: 45.0,
-                                child: Image.asset('res/images/settings.png'),
-                              ),
-                            ),
+                            GestureDetector(onTap: () {
+                              Provider.of<CenterPanelProvider>(context,
+                                      listen: false)
+                                  .changePanelState();
+                            }, child: Consumer<CenterPanelProvider>(
+                              builder: (context, state, child) {
+                                return state.panelState
+                                    ? Container(
+                                        width: 45.0,
+                                        child: Image.asset(
+                                            'res/images/settings.png'),
+                                      )
+                                    : Container(
+                                        width: 45.0,
+                                        child: Image.asset(
+                                            'res/images/setting_on.png'),
+                                      );
+                              },
+                            )),
                           ]),
                         ],
                       ),
                     ),
                   ],
                 ),
-                Column(
-                  children: <Widget>[
-                    Text(
-                      'Title Title',
-                      style: TextStyle(
-                          fontSize: 34.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w200),
-                    ),
-                    Container(
-                      height: 230.0,
-                      width: 230.0,
-                      child: Center(
-                        child: Stack(
-                          children: <Widget>[
-                            Center(
-                              child: CustomPaint(
-                                foregroundPainter: CircleProgress(
-                                    animation.value, animationInner.value),
-                                child: Container(
-                                  height: 230.0,
-                                  width: 230.0,
-                                ),
-                              ),
-                            ),
-                            //TODO сделать индикатор времени
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      '03:59',
-                                      style: TextStyle(
-                                          fontSize: 34.0,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w200),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  'Day 1',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                Consumer<CenterPanelProvider>(
+                  builder: (context, state, child) {
+                    return state.panelState
+                        ? PlayerDisplayWidget(
+                            animation: animation,
+                            animationInner: animationInner)
+                        : SettingPanelWidget();
+                  },
                 ),
-                Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                Consumer<BottomPanelProvider>(
+                  builder: (context, state, child) {
+                    return Column(
                       children: <Widget>[
+                        state.panelState
+                            ? PausedButtonPanel()
+                            : ResumeButtonPanel(),
                         Container(
-                          width: 135.0,
-                          height: 42.0,
-                          child: OutlineButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Pause',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.0,
-                              ),
-                            ),
-                            shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(7.0),
-                            ),
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
+                          height: 58.0,
                         ),
                       ],
-                    ),
-                    Container(
-                      height: 58.0,
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ],
             ),
