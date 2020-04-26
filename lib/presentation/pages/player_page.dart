@@ -1,9 +1,54 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:meditation_app/presentation/widgets/widgets.dart';
 
-class PlayerPage extends StatelessWidget {
+class PlayerPage extends StatefulWidget {
   const PlayerPage({Key key}) : super(key: key);
+
+  @override
+  _PlayerPageState createState() => _PlayerPageState();
+}
+
+class _PlayerPageState extends State<PlayerPage> with TickerProviderStateMixin {
+  AnimationController progressController;
+  AnimationController progressInnerController;
+  Animation animation;
+  Animation animationInner;
+
+  bool _visible;
+
+  @override
+  void initState() {
+    super.initState();
+    _visible = false;
+    progressController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 1000));
+    progressInnerController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 1000));
+    animation = Tween(begin: 0.0, end: 30.0).animate(progressController);
+    animationInner =
+        Tween(begin: 0.0, end: 100.0).animate(progressInnerController);
+
+    animation.addListener(() {
+      setState(() {});
+    });
+
+    animationInner.addListener(() {
+      setState(() {
+        _visible = true;
+      });
+    });
+    progressInnerController.forward();
+    progressController.forward();
+  }
+
+  @override
+  void dispose() {
+    progressController.dispose();
+    progressInnerController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +125,16 @@ class PlayerPage extends StatelessWidget {
                       child: Center(
                         child: Stack(
                           children: <Widget>[
-                            Placeholder(),
+                            Center(
+                              child: CustomPaint(
+                                foregroundPainter: CircleProgress(
+                                    animation.value, animationInner.value),
+                                child: Container(
+                                  height: 230.0,
+                                  width: 230.0,
+                                ),
+                              ),
+                            ),
                             //TODO сделать индикатор времени
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
