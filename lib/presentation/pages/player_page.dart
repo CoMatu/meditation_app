@@ -142,28 +142,42 @@ class _PlayerPageState extends State<PlayerPage> with TickerProviderStateMixin {
                 Consumer<CenterPanelProvider>(
                   builder: (context, state, child) {
                     return state.panelState
-                        ? PlayerDisplayWidget(
-                            animation: animation,
-                            animationInner: animationInner)
-                        : SettingPanelWidget();
-                  },
-                ),
-                Consumer<BottomPanelProvider>(
-                  builder: (context, state, child) {
-                    return Column(
-                      children: <Widget>[
-                        state.panelState
-                            ? PausedButtonPanel()
-                            : ResumeButtonPanel(),
-                        Container(
-                          height: 58.0,
-                        ),
-                      ],
-                    );
+                        ? Consumer<BottomPanelProvider>(
+                            builder: (context, state, child) {
+                              return Column(
+                                children: <Widget>[
+                                  state.panelState
+                                      ? PausedButtonPanel()
+                                      : ResumeButtonPanel(),
+                                  Container(
+                                    height: 58.0,
+                                  ),
+                                ],
+                              );
+                            },
+                          )
+                        : Container();
                   },
                 ),
               ],
             ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Center(
+                  child: Consumer<CenterPanelProvider>(
+                    builder: (context, state, child) {
+                      return state.panelState
+                          ? PlayerDisplayWidget(
+                          animation: animation,
+                          animationInner: animationInner)
+                          : SettingPanelWidget();
+                    },
+                  ),
+                ),
+              ],
+            ),
+
           ],
         ),
       ),

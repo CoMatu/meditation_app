@@ -101,6 +101,7 @@ class _SettingPanelWidgetState extends State<SettingPanelWidget> {
                     ),
                   ],
                 ),
+                //TODO надо разобраться как делать оверлей на неактивной картинке
                 Column(
                   children: <Widget>[
                     Container(
@@ -181,7 +182,7 @@ class _SettingPanelWidgetState extends State<SettingPanelWidget> {
                     ),
                     Text(
                       'Piano',
-                      style: TextStyle(color: Colors.white, fontSize: 12.0),
+                      style: TextStyle(color: Colors.white38, fontSize: 12.0),
                     ),
                   ],
                 ),
@@ -209,7 +210,7 @@ class _SettingPanelWidgetState extends State<SettingPanelWidget> {
                     ),
                     Text(
                       'Storm',
-                      style: TextStyle(color: Colors.white, fontSize: 12.0),
+                      style: TextStyle(color: Colors.white38, fontSize: 12.0),
                     ),
                   ],
                 ),

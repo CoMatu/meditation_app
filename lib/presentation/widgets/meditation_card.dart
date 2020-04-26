@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meditation_app/presentation/pages/pages.dart';
+import 'package:meditation_app/presentation/providers/center_panel_provider.dart';
+import 'package:provider/provider.dart';
 
 class MeditationCard extends StatelessWidget {
   const MeditationCard({Key key}) : super(key: key);
@@ -86,6 +88,13 @@ class MeditationCard extends StatelessWidget {
                           minWidth: 74.0,
                           child: RaisedButton(
                             onPressed: () {
+                              if (!Provider.of<CenterPanelProvider>(context,
+                                      listen: false)
+                                  .panelState) {
+                                Provider.of<CenterPanelProvider>(context,
+                                        listen: false)
+                                    .changePanelState();
+                              }
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
