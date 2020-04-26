@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:meditation_app/presentation/widgets/widgets.dart';
 
 class PlayerPage extends StatelessWidget {
   const PlayerPage({Key key}) : super(key: key);
