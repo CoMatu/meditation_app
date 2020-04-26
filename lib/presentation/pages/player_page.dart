@@ -60,6 +60,45 @@ class PlayerPage extends StatelessWidget {
                     ],
                   ),
                 ),
+                Center(
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        'Title Title',
+                        style: TextStyle(
+                            fontSize: 34.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w200),
+                      ),
+                      Container(
+                        height: 230.0,
+                        width: 230.0,
+                        child: Center(
+                          child: Stack(
+                            children: <Widget>[
+                              //TODO сделать индикатор времени
+                              Column(
+                                children: <Widget>[
+                                  Text(
+                                    '03:59',
+                                    style: TextStyle(
+                                        fontSize: 34.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w200),
+                                  ),
+                                  Text(
+                                    'Day 1',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ],
