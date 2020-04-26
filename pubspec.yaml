@@ -54,6 +54,11 @@ flutter:
     - res/images/background_player.png
     - res/images/sound_off.png
     - res/images/setting_on.png
+    - res/images/picture_airport.png
+    - res/images/picture_cafe.png
+    - res/images/picture_ocean.png
+    - res/images/picture_piano.png
+    - res/images/picture_storm.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
