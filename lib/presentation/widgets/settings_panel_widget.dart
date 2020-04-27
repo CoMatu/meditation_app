@@ -1,13 +1,46 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
+
+import 'package:flutter/services.dart';
+import 'package:meditation_app/presentation/providers/current_volume_provider.dart';
+import 'package:provider/provider.dart';
 
 class SettingPanelWidget extends StatefulWidget {
-  const SettingPanelWidget({Key key}) : super(key: key);
+  final AudioPlayer audioPlayer;
+
+  const SettingPanelWidget({Key key, @required this.audioPlayer})
+      : super(key: key);
 
   @override
   _SettingPanelWidgetState createState() => _SettingPanelWidgetState();
 }
 
 class _SettingPanelWidgetState extends State<SettingPanelWidget> {
+  double _initValue;
+  ui.Image customImage;
+
+  Future<ui.Image> loadImage(String assetPath) async {
+    ByteData data = await rootBundle.load(assetPath);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
+    ui.FrameInfo fi = await codec.getNextFrame();
+
+    return fi.image;
+  }
+
+  @override
+  void initState() {
+    var _preInitValue = Provider.of<CurrentVolumeProvider>(context, listen: false)
+        .currentVolume;
+    _preInitValue == 0 ? _initValue = 1.0 : _initValue = _preInitValue;
+    loadImage('res/images/more_volume.png').then((image) {
+      setState(() {
+        customImage = image;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,23 +61,27 @@ class _SettingPanelWidgetState extends State<SettingPanelWidget> {
         Container(
           height: 70.0,
           child: SliderTheme(
-            //TODO добавить картинку в ползунок слайдера
             data: SliderTheme.of(context).copyWith(
               activeTrackColor: Colors.white,
               inactiveTrackColor: Colors.white38,
               trackShape: RectangularSliderTrackShape(),
               trackHeight: 2.0,
               thumbColor: Colors.white,
-              thumbShape: RoundSliderThumbShape(enabledThumbRadius: 18.0),
+              thumbShape: SliderThumbImage(customImage),
               overlayColor: Colors.white.withAlpha(32),
-              overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
+              overlayShape: RoundSliderOverlayShape(overlayRadius: 26.0),
             ),
             child: Slider(
               min: 0,
-              max: 100,
-              value: 50,
+              max: 1,
+              value: _initValue,
               onChanged: (value) {
-                setState(() {});
+                setState(() {
+                  _initValue = value;
+                  widget.audioPlayer.setVolume(value);
+                  Provider.of<CurrentVolumeProvider>(context, listen: false)
+                      .setVolume(value);
+                });
               },
             ),
           ),
@@ -85,7 +122,7 @@ class _SettingPanelWidgetState extends State<SettingPanelWidget> {
                           fit: BoxFit.fill,
                         ),
                         borderRadius:
-                        new BorderRadius.all(new Radius.circular(20.0)),
+                            new BorderRadius.all(new Radius.circular(20.0)),
                         border: new Border.all(
                           color: Colors.white,
                           width: 1.0,
@@ -114,7 +151,7 @@ class _SettingPanelWidgetState extends State<SettingPanelWidget> {
                           fit: BoxFit.fill,
                         ),
                         borderRadius:
-                        new BorderRadius.all(new Radius.circular(20.0)),
+                            new BorderRadius.all(new Radius.circular(20.0)),
                         border: new Border.all(
                           color: Colors.white,
                           width: 1.0,
@@ -138,11 +175,12 @@ class _SettingPanelWidgetState extends State<SettingPanelWidget> {
                       decoration: new BoxDecoration(
                         color: Colors.white,
                         image: new DecorationImage(
-                          image: new AssetImage('res/images/picture_airport.png'),
+                          image:
+                              new AssetImage('res/images/picture_airport.png'),
                           fit: BoxFit.fill,
                         ),
                         borderRadius:
-                        new BorderRadius.all(new Radius.circular(20.0)),
+                            new BorderRadius.all(new Radius.circular(20.0)),
                         border: new Border.all(
                           color: Colors.white,
                           width: 1.0,
@@ -170,7 +208,7 @@ class _SettingPanelWidgetState extends State<SettingPanelWidget> {
                           fit: BoxFit.fill,
                         ),
                         borderRadius:
-                        new BorderRadius.all(new Radius.circular(20.0)),
+                            new BorderRadius.all(new Radius.circular(20.0)),
                         border: new Border.all(
                           color: Colors.white,
                           width: 1.0,
@@ -198,7 +236,7 @@ class _SettingPanelWidgetState extends State<SettingPanelWidget> {
                           fit: BoxFit.fill,
                         ),
                         borderRadius:
-                        new BorderRadius.all(new Radius.circular(20.0)),
+                            new BorderRadius.all(new Radius.circular(20.0)),
                         border: new Border.all(
                           color: Colors.white,
                           width: 1.0,
@@ -220,5 +258,42 @@ class _SettingPanelWidgetState extends State<SettingPanelWidget> {
         ),
       ]),
     );
+  }
+}
+
+class SliderThumbImage extends SliderComponentShape {
+  final ui.Image image;
+
+  SliderThumbImage(this.image);
+
+  @override
+  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
+    return Size(0, 0);
+  }
+
+  @override
+  void paint(PaintingContext context, Offset center,
+      {Animation<double> activationAnimation,
+      Animation<double> enableAnimation,
+      bool isDiscrete,
+      TextPainter labelPainter,
+      RenderBox parentBox,
+      SliderThemeData sliderTheme,
+      TextDirection textDirection,
+      double value}) {
+    final canvas = context.canvas;
+    final imageWidth = image?.width ?? 20;
+    final imageHeight = image?.height ?? 20;
+
+    Offset imageOffset = Offset(
+      center.dx - (imageWidth / 2),
+      center.dy - (imageHeight / 2),
+    );
+
+    Paint paint = Paint()..filterQuality = FilterQuality.high;
+
+    if (image != null) {
+      canvas.drawImage(image, imageOffset, paint);
+    }
   }
 }

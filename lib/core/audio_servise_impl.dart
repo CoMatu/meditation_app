@@ -28,4 +28,11 @@ class MainAudioServiceImpl implements MainAudioService {
   Future<void> stopAudio(AudioPlayer player) async {
     await player.stop();
   }
+
+  @override
+  Future<int> getDuration(AudioPlayer player) async {
+    int duration = await Future.delayed(
+        Duration(milliseconds: 500), () => player.getDuration());
+    return duration;
+  }
 }

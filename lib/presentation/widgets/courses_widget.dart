@@ -19,7 +19,7 @@ class CoursesWidget extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: 5,
               itemBuilder: (BuildContext context, int index) =>
-                  MeditationCard(),
+                  MeditationCard(index),
             ),
           ),
           HeadLineWidget(),
@@ -31,7 +31,7 @@ class CoursesWidget extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: 5,
               itemBuilder: (BuildContext context, int index) =>
-                  MeditationCard(),
+                  MeditationCard(index),
             ),
           ),
           HeadLineWidget(),
@@ -43,7 +43,7 @@ class CoursesWidget extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: 5,
               itemBuilder: (BuildContext context, int index) =>
-                  MeditationCard(),
+                  MeditationCard(index),
             ),
           ),
           HeadLineWidget(),
@@ -55,7 +55,7 @@ class CoursesWidget extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: 5,
               itemBuilder: (BuildContext context, int index) =>
-                  MeditationCard(),
+                  MeditationCard(index),
             ),
           ),
         ],

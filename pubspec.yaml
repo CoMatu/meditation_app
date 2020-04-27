@@ -63,6 +63,7 @@ flutter:
     - res/images/picture_ocean.png
     - res/images/picture_piano.png
     - res/images/picture_storm.png
+    - res/images/more_volume.png
     - assets/sounds/ocean_sound.mp3
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

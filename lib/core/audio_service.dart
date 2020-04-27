@@ -8,4 +8,6 @@ abstract class MainAudioService {
   Future<void> stopAudio(AudioPlayer player);
 
   Future<void> resumeAudio(AudioPlayer player);
+
+  Future<int> getDuration(AudioPlayer player);
 }

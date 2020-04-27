@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:meditation_app/presentation/pages/pages.dart';
 import 'package:meditation_app/presentation/providers/bottom_panel_provider.dart';
 import 'package:meditation_app/presentation/providers/center_panel_provider.dart';
+import 'package:meditation_app/presentation/providers/current_volume_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:meditation_app/injecttion_container.dart' as di;
 
@@ -17,6 +18,8 @@ void main() async {
                     create: (context) => BottomPanelProvider()),
                 ChangeNotifierProvider(
                     create: (context) => CenterPanelProvider()),
+                ChangeNotifierProvider(
+                    create: (context) => CurrentVolumeProvider()),
               ],
               child: MyApp(),
             ),
