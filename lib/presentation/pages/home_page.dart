@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meditation_app/presentation/widgets/widgets.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -10,6 +11,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Map<PermissionGroup, PermissionStatus> permissions;
   var pageIndicator = 0;
 
   final _controlWidgets = <int, Widget>{
@@ -23,6 +25,18 @@ class _HomePageState extends State<HomePage> {
     CoursesWidget(),
     SoundsWidget(),
   ];
+
+  void getPermission() async {
+    permissions = await PermissionHandler().requestPermissions([
+      PermissionGroup.storage,
+    ]);
+  }
+
+  @override
+  void initState() {
+    getPermission();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,13 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:meditation_app/core/audio_service.dart';
+import 'package:meditation_app/injecttion_container.dart';
 import 'package:meditation_app/presentation/providers/bottom_panel_provider.dart';
 import 'package:provider/provider.dart';
 
 class ResumeButtonPanel extends StatelessWidget {
-  const ResumeButtonPanel({
+  final AudioPlayer audioPlayer;
+  const ResumeButtonPanel(this.audioPlayer, {
     Key key,
   }) : super(key: key);
 
@@ -17,6 +21,7 @@ class ResumeButtonPanel extends StatelessWidget {
           height: 42.0,
           child: OutlineButton(
             onPressed: () {
+              sl<MainAudioService>().stopAudio(audioPlayer);
               Navigator.pop(context);
               Provider.of<BottomPanelProvider>(context, listen: false)
                   .changePanelState();
@@ -39,6 +44,7 @@ class ResumeButtonPanel extends StatelessWidget {
           height: 42.0,
           child: RaisedButton(
             onPressed: () {
+              sl<MainAudioService>().resumeAudio(audioPlayer);
               Provider.of<BottomPanelProvider>(context, listen: false)
                   .changePanelState();
             },

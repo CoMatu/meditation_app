@@ -28,6 +28,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
   provider: ^4.0.5
+  audioplayers: ^0.15.1
+  meta: ^1.1.8
+  get_it: ^4.0.2
+  permission_handler: ^4.2.0+hotfix.3
 
 dev_dependencies:
   flutter_test:
@@ -59,6 +63,7 @@ flutter:
     - res/images/picture_ocean.png
     - res/images/picture_piano.png
     - res/images/picture_storm.png
+    - assets/sounds/ocean_sound.mp3
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

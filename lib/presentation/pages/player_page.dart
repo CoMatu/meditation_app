@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,10 +8,11 @@ import 'package:meditation_app/presentation/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 class PlayerPage extends StatefulWidget {
-  const PlayerPage({Key key}) : super(key: key);
+  final AudioPlayer player;
+  PlayerPage( this.player, {Key key}) : super(key: key);
 
   @override
-  _PlayerPageState createState() => _PlayerPageState();
+  _PlayerPageState createState() => _PlayerPageState(player);
 }
 
 class _PlayerPageState extends State<PlayerPage> with TickerProviderStateMixin {
@@ -21,6 +23,9 @@ class _PlayerPageState extends State<PlayerPage> with TickerProviderStateMixin {
   bool _visible;
   bool _pausedPanelVisible;
   bool _soundOn;
+  AudioPlayer audioPlayer;
+
+  _PlayerPageState(this.audioPlayer);
 
   @override
   void initState() {
@@ -147,8 +152,8 @@ class _PlayerPageState extends State<PlayerPage> with TickerProviderStateMixin {
                               return Column(
                                 children: <Widget>[
                                   state.panelState
-                                      ? PausedButtonPanel()
-                                      : ResumeButtonPanel(),
+                                      ? PausedButtonPanel(audioPlayer)
+                                      : ResumeButtonPanel(audioPlayer),
                                   Container(
                                     height: 58.0,
                                   ),

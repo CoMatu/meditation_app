@@ -1,4 +1,7 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:meditation_app/core/audio_service.dart';
+import 'package:meditation_app/injecttion_container.dart';
 import 'package:meditation_app/presentation/pages/pages.dart';
 import 'package:meditation_app/presentation/providers/center_panel_provider.dart';
 import 'package:provider/provider.dart';
@@ -87,7 +90,7 @@ class MeditationCard extends StatelessWidget {
                           height: 30.0,
                           minWidth: 74.0,
                           child: RaisedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               if (!Provider.of<CenterPanelProvider>(context,
                                       listen: false)
                                   .panelState) {
@@ -95,10 +98,13 @@ class MeditationCard extends StatelessWidget {
                                         listen: false)
                                     .changePanelState();
                               }
+                              final AudioPlayer player = await sl<MainAudioService>()
+                                  .playAudio('sounds/ocean_sound.mp3');
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => PlayerPage()),
+                                    builder: (context) => PlayerPage(player)),
                               );
                             },
                             color: Colors.cyan[400],
