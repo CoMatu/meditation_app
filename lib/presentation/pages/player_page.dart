@@ -68,8 +68,9 @@ class _PlayerPageState extends State<PlayerPage> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: () async {
-                                  sl<MainAudioService>()
+/*                                   sl<MainAudioService>()
                                       .stopAudio(provider.audioPlayer);
+ */
                                   bool state = Provider.of<BottomPanelProvider>(
                                           context,
                                           listen: false)
@@ -180,9 +181,7 @@ class _PlayerPageState extends State<PlayerPage> {
                               ? PlayerDisplayWidget(
                                   audioPlayer: provider.audioPlayer,
                                 )
-                              : SettingPanelWidget(
-                                  audioPlayer: provider.audioPlayer,
-                                );
+                              : SettingPanelWidget();
                         },
                       ),
                     ),

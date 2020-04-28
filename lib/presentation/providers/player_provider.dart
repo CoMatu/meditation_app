@@ -10,4 +10,9 @@ class PlayerProvider extends ChangeNotifier {
     _audioPlayer = player;
     notifyListeners();
   }
+
+  void resetPlayer() {
+    _audioPlayer = null;
+    notifyListeners();
+  }
 }

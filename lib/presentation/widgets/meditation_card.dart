@@ -19,27 +19,7 @@ class MeditationCard extends StatelessWidget {
       height: 175,
       width: 330,
       child: GestureDetector(
-        onTap: () async {
-          if (!Provider.of<CenterPanelProvider>(context, listen: false)
-              .panelState) {
-            Provider.of<CenterPanelProvider>(context, listen: false)
-                .changePanelState();
-          }
-          final AudioPlayer player =
-              await sl<MainAudioService>().playAudio('sounds/ocean_sound.mp3');
-
-          int duration = await sl<MainAudioService>().getDuration(player);
-
-          Provider.of<DurationProvider>(context, listen: false)
-              .setDuration(duration);
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PlayerPage(),
-            ),
-          );
-        },
+        onTap: () => goToPlayer(context, 'sounds/ocean_sound.mp3'),
         child: Card(
           semanticContainer: true,
           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -123,36 +103,8 @@ class MeditationCard extends StatelessWidget {
                             height: 30.0,
                             minWidth: 74.0,
                             child: RaisedButton(
-                              onPressed: () async {
-                                if (!Provider.of<CenterPanelProvider>(context,
-                                        listen: false)
-                                    .panelState) {
-                                  Provider.of<CenterPanelProvider>(context,
-                                          listen: false)
-                                      .changePanelState();
-                                }
-                                final AudioPlayer player =
-                                    await sl<MainAudioService>()
-                                        .playAudio('sounds/ocean_sound.mp3');
-
-                                Provider.of<PlayerProvider>(context,
-                                        listen: false)
-                                    .setAudioPlayer(player);
-
-                                int duration = await sl<MainAudioService>()
-                                    .getDuration(player);
-
-                                Provider.of<DurationProvider>(context,
-                                        listen: false)
-                                    .setDuration(duration);
-
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PlayerPage(),
-                                  ),
-                                );
-                              },
+                              onPressed: () =>
+                                  goToPlayer(context, 'sounds/ocean_sound.mp3'),
                               color: Colors.cyan[400],
                               child: Text(
                                 'BEGIN',
@@ -176,6 +128,32 @@ class MeditationCard extends StatelessWidget {
           ),
           margin: EdgeInsets.all(10),
         ),
+      ),
+    );
+  }
+
+  goToPlayer(BuildContext context, String path) async {
+    if (!Provider.of<CenterPanelProvider>(context, listen: false).panelState) {
+      Provider.of<CenterPanelProvider>(context, listen: false)
+          .changePanelState();
+    }
+    if (Provider.of<PlayerProvider>(context, listen: false).audioPlayer ==
+        null) {
+      final AudioPlayer player = await sl<MainAudioService>().playAudio(path);
+
+      Provider.of<PlayerProvider>(context, listen: false)
+          .setAudioPlayer(player);
+
+      int duration = await sl<MainAudioService>().getDuration(player);
+
+      Provider.of<DurationProvider>(context, listen: false)
+          .setDuration(duration);
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PlayerPage(),
       ),
     );
   }
