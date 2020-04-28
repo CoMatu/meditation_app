@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
+import 'package:meditation_app/core/audio_service.dart';
+import 'package:meditation_app/injecttion_container.dart';
 import 'package:meditation_app/presentation/providers/current_volume_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -30,8 +32,9 @@ class _SettingPanelWidgetState extends State<SettingPanelWidget> {
 
   @override
   void initState() {
-    var _preInitValue = Provider.of<CurrentVolumeProvider>(context, listen: false)
-        .currentVolume;
+    var _preInitValue =
+        Provider.of<CurrentVolumeProvider>(context, listen: false)
+            .currentVolume;
     _preInitValue == 0 ? _initValue = 1.0 : _initValue = _preInitValue;
     loadImage('res/images/more_volume.png').then((image) {
       setState(() {
@@ -112,20 +115,28 @@ class _SettingPanelWidgetState extends State<SettingPanelWidget> {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    Container(
-                      width: 40.0,
-                      height: 40.0,
-                      decoration: new BoxDecoration(
-                        color: Colors.white,
-                        image: new DecorationImage(
-                          image: new AssetImage('res/images/picture_ocean.png'),
-                          fit: BoxFit.fill,
-                        ),
-                        borderRadius:
-                            new BorderRadius.all(new Radius.circular(20.0)),
-                        border: new Border.all(
+                    GestureDetector(
+                      onTap: () {
+                        sl<MainAudioService>().stopAudio(widget.audioPlayer);
+                        sl<MainAudioService>()
+                            .playAudio('sounds/ocean_sound.mp3');
+                      },
+                      child: Container(
+                        width: 40.0,
+                        height: 40.0,
+                        decoration: new BoxDecoration(
                           color: Colors.white,
-                          width: 1.0,
+                          image: new DecorationImage(
+                            image:
+                                new AssetImage('res/images/picture_ocean.png'),
+                            fit: BoxFit.fill,
+                          ),
+                          borderRadius:
+                              new BorderRadius.all(new Radius.circular(20.0)),
+                          border: new Border.all(
+                            color: Colors.white,
+                            width: 1.0,
+                          ),
                         ),
                       ),
                     ),
@@ -141,20 +152,28 @@ class _SettingPanelWidgetState extends State<SettingPanelWidget> {
                 //TODO надо разобраться как делать оверлей на неактивной картинке
                 Column(
                   children: <Widget>[
-                    Container(
-                      width: 40.0,
-                      height: 40.0,
-                      decoration: new BoxDecoration(
-                        color: Colors.white,
-                        image: new DecorationImage(
-                          image: new AssetImage('res/images/picture_cafe.png'),
-                          fit: BoxFit.fill,
-                        ),
-                        borderRadius:
-                            new BorderRadius.all(new Radius.circular(20.0)),
-                        border: new Border.all(
+                    GestureDetector(
+                      onTap: () {
+                        sl<MainAudioService>().stopAudio(widget.audioPlayer);
+                        sl<MainAudioService>()
+                            .playAudio('sounds/cafe_sound.mp3');
+                      },
+                      child: Container(
+                        width: 40.0,
+                        height: 40.0,
+                        decoration: new BoxDecoration(
                           color: Colors.white,
-                          width: 1.0,
+                          image: new DecorationImage(
+                            image:
+                                new AssetImage('res/images/picture_cafe.png'),
+                            fit: BoxFit.fill,
+                          ),
+                          borderRadius:
+                              new BorderRadius.all(new Radius.circular(20.0)),
+                          border: new Border.all(
+                            color: Colors.white,
+                            width: 1.0,
+                          ),
                         ),
                       ),
                     ),

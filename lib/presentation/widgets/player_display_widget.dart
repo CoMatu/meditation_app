@@ -24,8 +24,11 @@ class _PlayerDisplayWidgetState extends State<PlayerDisplayWidget>
   Animation animationInner;
   double _soundProgress = 0.0;
 
+  String _timerText;
+
   void initState() {
     super.initState();
+    _timerText = '00:00';
     progressController = AnimationController(
         vsync: this, duration: Duration(milliseconds: 1000));
     progressInnerController = AnimationController(
@@ -51,6 +54,8 @@ class _PlayerDisplayWidgetState extends State<PlayerDisplayWidget>
                   _soundProgress = p.inMilliseconds * 100 / widget.duration;
                   animation = Tween(begin: 0.0, end: _soundProgress)
                       .animate(progressController);
+                  _timerText =
+                      '${p.inMinutes.remainder(60).toString().padLeft(2, '0')}:${p.inSeconds.remainder(60).toString().padLeft(2, '0')}';
                 }
               })
             }
@@ -100,7 +105,7 @@ class _PlayerDisplayWidgetState extends State<PlayerDisplayWidget>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          '03:59',
+                          _timerText,
                           style: TextStyle(
                               fontSize: 34.0,
                               color: Colors.white,
