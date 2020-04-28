@@ -1,16 +1,21 @@
+import 'dart:developer';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:meditation_app/core/audio_service.dart';
+import 'package:meditation_app/injecttion_container.dart';
+import 'package:meditation_app/presentation/providers/duration_provider.dart';
+import 'package:meditation_app/presentation/providers/player_provider.dart';
 import 'package:meditation_app/presentation/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class PlayerDisplayWidget extends StatefulWidget {
   const PlayerDisplayWidget({
     Key key,
     @required this.audioPlayer,
-    @required this.duration,
   }) : super(key: key);
 
   final AudioPlayer audioPlayer;
-  final int duration;
 
   @override
   _PlayerDisplayWidgetState createState() => _PlayerDisplayWidgetState();
@@ -23,11 +28,17 @@ class _PlayerDisplayWidgetState extends State<PlayerDisplayWidget>
   Animation animation;
   Animation animationInner;
   double _soundProgress = 0.0;
+  AudioPlayer player;
 
   String _timerText;
 
+  int _duration;
+
   void initState() {
     super.initState();
+    player = Provider.of<PlayerProvider>(context, listen: false).audioPlayer;
+    _duration = Provider.of<DurationProvider>(context, listen: false).duration;
+    print(_duration);
     _timerText = '00:00';
     progressController = AnimationController(
         vsync: this, duration: Duration(milliseconds: 1000));
@@ -51,7 +62,7 @@ class _PlayerDisplayWidgetState extends State<PlayerDisplayWidget>
             {
               setState(() {
                 if (p.inMilliseconds != 0) {
-                  _soundProgress = p.inMilliseconds * 100 / widget.duration;
+                  _soundProgress = p.inMilliseconds * 100 / _duration;
                   animation = Tween(begin: 0.0, end: _soundProgress)
                       .animate(progressController);
                   _timerText =

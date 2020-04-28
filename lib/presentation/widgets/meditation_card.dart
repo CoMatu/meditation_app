@@ -4,6 +4,8 @@ import 'package:meditation_app/core/audio_service.dart';
 import 'package:meditation_app/injecttion_container.dart';
 import 'package:meditation_app/presentation/pages/pages.dart';
 import 'package:meditation_app/presentation/providers/center_panel_provider.dart';
+import 'package:meditation_app/presentation/providers/duration_provider.dart';
+import 'package:meditation_app/presentation/providers/player_provider.dart';
 import 'package:provider/provider.dart';
 
 class MeditationCard extends StatelessWidget {
@@ -28,10 +30,13 @@ class MeditationCard extends StatelessWidget {
 
           int duration = await sl<MainAudioService>().getDuration(player);
 
+          Provider.of<DurationProvider>(context, listen: false)
+              .setDuration(duration);
+
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PlayerPage(player, duration),
+              builder: (context) => PlayerPage(),
             ),
           );
         },
@@ -130,14 +135,21 @@ class MeditationCard extends StatelessWidget {
                                     await sl<MainAudioService>()
                                         .playAudio('sounds/ocean_sound.mp3');
 
+                                Provider.of<PlayerProvider>(context,
+                                        listen: false)
+                                    .setAudioPlayer(player);
+
                                 int duration = await sl<MainAudioService>()
                                     .getDuration(player);
+
+                                Provider.of<DurationProvider>(context,
+                                        listen: false)
+                                    .setDuration(duration);
 
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        PlayerPage(player, duration),
+                                    builder: (context) => PlayerPage(),
                                   ),
                                 );
                               },

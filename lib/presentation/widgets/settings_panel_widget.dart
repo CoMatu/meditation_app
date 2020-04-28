@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:meditation_app/core/audio_service.dart';
 import 'package:meditation_app/injecttion_container.dart';
 import 'package:meditation_app/presentation/providers/current_volume_provider.dart';
+import 'package:meditation_app/presentation/providers/duration_provider.dart';
+import 'package:meditation_app/presentation/providers/player_provider.dart';
 import 'package:provider/provider.dart';
 
 class SettingPanelWidget extends StatefulWidget {
@@ -116,10 +118,16 @@ class _SettingPanelWidgetState extends State<SettingPanelWidget> {
                 Column(
                   children: <Widget>[
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         sl<MainAudioService>().stopAudio(widget.audioPlayer);
-                        sl<MainAudioService>()
+                        final AudioPlayer player = await sl<MainAudioService>()
                             .playAudio('sounds/ocean_sound.mp3');
+                        Provider.of<PlayerProvider>(context, listen: false)
+                            .setAudioPlayer(player);
+                        int duration =
+                            await sl<MainAudioService>().getDuration(player);
+                        Provider.of<DurationProvider>(context, listen: false)
+                            .setDuration(duration);
                       },
                       child: Container(
                         width: 40.0,
@@ -153,10 +161,17 @@ class _SettingPanelWidgetState extends State<SettingPanelWidget> {
                 Column(
                   children: <Widget>[
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         sl<MainAudioService>().stopAudio(widget.audioPlayer);
-                        sl<MainAudioService>()
+                        final AudioPlayer player = await sl<MainAudioService>()
                             .playAudio('sounds/cafe_sound.mp3');
+
+                        Provider.of<PlayerProvider>(context, listen: false)
+                            .setAudioPlayer(player);
+                        int duration =
+                            await sl<MainAudioService>().getDuration(player);
+                        Provider.of<DurationProvider>(context, listen: false)
+                            .setDuration(duration);
                       },
                       child: Container(
                         width: 40.0,
